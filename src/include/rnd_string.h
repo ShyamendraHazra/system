@@ -21,6 +21,7 @@ typedef  struct {
 } buffer;
 
 
+#define Buffer(x) buffer x = {.len = 0, .buff = &(string){.len = 0, .ptr = NULL, .overflow = false}, .curr = 0}
 
 int stringtostd(string str);
 int stdtostring(string *str, char pre_char);

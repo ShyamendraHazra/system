@@ -3,13 +3,11 @@
 #include <stdlib.h>
 #include "rnd_string.h"
 
-#define  String(x) string x = {.len = 0, .ptr = NULL, .overflow = false}
 
 void read_string();
 
 void string_main() {
 
-  String(var);
 
   printf("Hey Hello there!\n");
 
@@ -27,15 +25,21 @@ int stdtostring(string *str, char pre_char) {
   if(str->len != 0) {
 
     printf("Buffer String element in corrupted state\n");
+  } else {
+    // str->ptr = 
   }
+  
+  char char_holder;
 
   for(str->len = 1; str->len <= 255; str->len++) {
 
-    scanf("%c", &str->ptr[str->len]);
+    scanf("%c", &char_holder);
 
-    if(str->ptr[str->len] == '\n') {
+    if(char_holder == '\n') {
 
       break;
+    } else {
+      str->ptr[str->len] = char_holder;
     }
   }
   
@@ -58,10 +62,12 @@ int stdtobuffer(buffer *buff) {
 
       printf("\nInput Terminated!\n");
       break;
-    } else {
+    }else {
 
       stdtostring(buff->buff, pre_char);
     }
   }
+
+  return 0;
 }
 
