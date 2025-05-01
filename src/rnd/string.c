@@ -26,12 +26,13 @@ int stdtostring(string *str, char pre_char) {
 
     printf("Buffer String element in corrupted state\n");
   } else {
-    // str->ptr = 
+    str->ptr[str->len] = pre_char;
+    str->len++;
   }
   
   char char_holder;
 
-  for(str->len = 1; str->len <= 255; str->len++) {
+  while(str->len < 256 ) {
 
     scanf("%c", &char_holder);
 
@@ -41,6 +42,9 @@ int stdtostring(string *str, char pre_char) {
     } else {
       str->ptr[str->len] = char_holder;
     }
+
+    str->len++;
+
   }
   
   return 0;
@@ -52,22 +56,35 @@ int buffertostd(buffer buff) {
 }
 
 int stdtobuffer(buffer *buff) {
+  
+  if(buff->len == 0 && buff->str != NULL) {
 
-  char pre_char;
+    printf("Buffer in a corrupted state!\n");
+    exit(EXIT_FAILURE);
 
-  while(true) {
-    scanf("%c", &pre_char);
+  } else if(buff->len > 0 && buff->str == NULL) {
 
-    if(pre_char == '\n') {
+    printf("Buffer in unreachable state\n");
+    exit(EXIT_FAILURE);
 
-      printf("\nInput Terminated!\n");
-      break;
-    }else {
+  } else {
+  
+      char pre_char;
 
-      stdtostring(buff->buff, pre_char);
-    }
+      while(true) {
+        scanf("%c", &pre_char);
+
+        if(pre_char == '\n') {
+
+          printf("\nInput Terminated!\n");
+          break;
+
+        }else {
+
+          stdtostring(buff->buff, pre_char);
+        }
+      }
   }
-
   return 0;
 }
 
