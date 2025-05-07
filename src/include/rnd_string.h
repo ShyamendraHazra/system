@@ -17,7 +17,7 @@ typedef struct {
 typedef  struct {
 	uint8_t len;
 	string *str;
-	uint8_t curr;
+	string *curr;
 } buffer;
 
 
