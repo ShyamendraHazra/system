@@ -28,10 +28,9 @@ int stdtostring(string *str, char pre_char) {
   if(str->len != 0) {
 
     printf("Buffer String element in corrupted state\n");
-  } else {
+  } 
     str->ptr[str->len] = pre_char;
     str->len++;
-  }
   
   char char_holder;
 
@@ -92,31 +91,31 @@ int stdtobuffer(buffer *buff) {
     if(buff->str->len == 255) {
       break;
     }
+
     scanf("%c", &pre_char);
 
     if(pre_char == '\n') {
 
-      printf("\nInput Terminated!\n");
+      printf("\ninput terminated!\n");
       break;
 
     }else {
 
       
+      if(buff->len > 0) {
 
-      string *old_str_mem_ref = buff->str;
+        buff->str =  realloc(buff->str, buff->len*sizeof(string));
+      }
 
-      buff->str =  realloc(buff->str, buff->len*sizeof(string));
-      
       if(buff->str == NULL) {
         
         printf("Failed to reallocate memory for buffer string\n");
-        buff->str = old_str_mem_ref;
         return 1;
       }
-
+      
+      buff->curr = buff->str + buff->len;
       stdtostring(buff->curr, pre_char);
       buff->len++;
-      buff->curr += buff->len;
 
     }
   }

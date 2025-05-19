@@ -31,7 +31,7 @@ void test_stdtobuffer() {
 }
 
 void test_stdtostring() {
-	string str;
+	string str = {.len = 0, .ptr = 0, .overflow = false};
 
 	char actual_sample[] = "This is a easy test!";
 	char expected_sample[] = "his is a easy test!";
@@ -66,5 +66,7 @@ void call_test() {
 		printf("Case %d :: ", count+1);
 		test_methods[count]();
 	}
+
+	printf("Total %d tests run\n", total_registered_test_count);
 
 }
