@@ -3,6 +3,7 @@
 // #include <rnd/random.h>
 // #include <tests/rnd_string.test.h>
 #include <tests/gentestfile.h>
+#include <rnd/random.h>
 #include <stdio.h>
 // #include <tests/exp/file_io.h>
 // #include <stdint.h>
@@ -21,7 +22,7 @@ int main() {
   //
   // freopen("/dev/tty", "r", stdin);
   // printf("Current time in second and nanosecond since epoch\n");
-  write_file();
-
+  // write_file();
+  printf("%d\n",(uint32_t)random_r(100, 20));
   return 0;
 }
