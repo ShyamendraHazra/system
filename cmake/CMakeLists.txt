@@ -46,59 +46,9 @@ set(PREPROCESS_DIR "${PROJECT_ROOT}/preprocessed")
 file(MAKE_DIRECTORY "${PREPROCESS_DIR}")
 
 # Collect all C/C++ sources
-file(GLOB_RECURSE SOURCES "${PROJECT_ROOT}/src/*.c" "${PROJECT_ROOT}/src/*.cc")
-
-# # Generate preprocessed files
-# set(PREPROCESS_FILES "")
-#
-#
-#
-# foreach(src ${SOURCES})
-# 	get_filename_component(name "${src}" NAME)
-# 	get_filename_component(ext "${src}" EXT)
-# 	set(out_file "${PREPROCESS_DIR}/${name}.i")
-#
-# 	if(ext STREQUAL ".c")
-# 		set(COMPILER "${CMAKE_C_COMPILER}")
-# 	else()
-# 		set(COMPILER "${CMAKE_CXX_COMPILER}")
-# 	endif()
-#
-# 	message(STATUS "Preprocessing: ${src}")
-# 	message(STATUS "Compiler: ${COMPILER}")
-# 	message(STATUS "Include dir: ${PROJECT_INCLUDE_DIR}")
-# 	message(STATUS "Output: ${out_file}")
-#
-# 	if(MSVC)
-# 		add_custom_command(
-# 						OUTPUT "${out_file}"
-# 						COMMAND "${COMPILER}" /EP /I"${PROJECT_INCLUDE_DIR}" /Fi"${out_file}" "${src}"
-# 						DEPENDS "${src}"
-# 						WORKING_DIRECTORY "${PROJECT_ROOT}"
-# 						VERBATIM
-# 				)
-# 	else()
-# 		add_custom_command(
-# 						OUTPUT "${out_file}"
-# 						COMMAND "${COMPILER}"
-# 							-I"${PROJECT_INCLUDE_DIR}"
-# 							-I"${PROJECT_ROOT}/src"
-# 							-E -o "${out_file}" "${src}"
-# 						DEPENDS "${src}"
-# 						WORKING_DIRECTORY "${PROJECT_ROOT}"
-# 						VERBATIM
-# 				)
-# 	endif()
-#
-# 	message(STATUS "COMMAND: ${COMPILER} -I${PROJECT_INCLUDE_DIR} -E -o ${out_file} ${src}")
-# 	list(APPEND PREPROCESS_FILES "${out_file}")
-# endforeach()
-#
-# add_custom_target(preprocess_auto ALL DEPENDS ${PREPROCESS_FILES})
-#
+file(GLOB_RECURSE SOURCES "${PROJECT_ROOT}/src/*.c")
 
 
-#
 # Check if the current operating system is Windows
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
@@ -113,13 +63,15 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 
 	# Create an executable named '${PROJECT}_win' using the source files
 	add_executable(${PROJECT}_win ${SOURCES})
-	add_executable(${PROJECT}_win ${SOURCES})
-
+	list(REMOVE_ITEM ${SOURCES} "main.c")
+	add_executable(test_${PROJECT}_win ${SOURCES})
 	# Set the include directories for the Windows build (where to find headers)
 	target_include_directories(${PROJECT}_win PRIVATE ${PROJECT_INCLUDE_DIR} /usr/x86_64-w64-mingw32/include)
+	target_include_directories(test_${PROJECT}_win PRIVATE ${PROJECT_INCLUDE_DIR} /usr/x86_64-w64-mingw32/include)
 
 	# Set the directories where the linker will look for libraries on Windows
 	target_link_directories(${PROJECT}_win PRIVATE /usr/x86_64-w64-mingw32/bin)
+	target_link_directories(test_${PROJECT}_win PRIVATE /usr/x86_64-w64-mingw32/bin)
 
 
 
@@ -147,12 +99,39 @@ else()
 	# If not Windows, assume Linux-specific settings
 
 	# Create an executable named '${PROJECT}_linux' using the source files
+	
+	message("\n------ Added all files to sources ------\n")
+
+	# remove test.main.c from release binary target
+	list(REMOVE_ITEM SOURCES "${PROJECT_ROOT}/src/tests/test.main.c")
+
+	message("\n------ Removed test.main.c ------\n")
+
+	# create release binary target
 	add_executable(${PROJECT}_linux ${SOURCES})
+
+	message("\n------ Added release binary target ------\n")
+
+		
+	#Append test.main.c for test binary target
+	list(APPEND SOURCES "${PROJECT_ROOT}/src/tests/test.main.c")
+
+	# Remove main.c from test binary
+	list(REMOVE_ITEM SOURCES "${PROJECT_ROOT}/src/main.c")
+
+	message("\n------ Added test.main.c and removed main.c ------\n")
+
+	# add test binary target
+	add_executable(${PROJECT}_linux_test ${SOURCES})
+
+	message("\n------ Added test binary target ------\n")
 
 	# Set the include directories for the Linux build (where to find headers)
 	target_include_directories(${PROJECT}_linux PRIVATE ${PROJECT_INCLUDE_DIR} /usr/include)
+	target_include_directories(${PROJECT}_linux_test PRIVATE ${PROJECT_INCLUDE_DIR} /usr/include)
 
 	# Set the directories where the linker will look for libraries on Linux
 	target_link_directories(${PROJECT}_linux PRIVATE /usr/lib)
+	target_link_directories(${PROJECT}_linux_test PRIVATE /usr/lib)
 
 endif()
