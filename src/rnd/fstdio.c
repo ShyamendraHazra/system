@@ -3,7 +3,6 @@
 #include <rnd/f_stdio.h>
 
 void wf_write(const char *str) {
-  FILE *ostd_out = stdout;
   freopen("files/stdf.txt", "w", stdout);
   if(stdout != NULL) {
     printf("%s\n", str);
@@ -14,7 +13,6 @@ void wf_write(const char *str) {
 }
 
 void wf_read(char *str) {
-  FILE *ostd_in = stdin;
   freopen("files/stdf.txt", "r", stdin);
   if(stdin != NULL) {
     scanf("%[^\n]", str);

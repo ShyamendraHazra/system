@@ -5,12 +5,22 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_BUILD_PARALLEL_LEVEL ${NUMBER_OF_PROCESSORS})
 
 #set project name
-set(PROJECT "cc_project")
+set(PROJECT "system")
 
 # Define the project name and the languages used (C and C++)
 project(${PROJECT} C CXX)
 
-set(CMAKE_C_COMPILER "/usr/bin/clang")
+add_compile_options(
+    -std=c99
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Werror
+    -O2
+    -g
+)
+
+set(CMAKE_C_COMPILER "gcc")
 
 # get the directory of the current source file, which is the project root
 get_filename_component(PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)

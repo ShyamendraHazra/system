@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+         {
+      "name": "Launch with LLDB",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/Linux/${workspaceFolderBasename}_linux_test",   // ⬅️ your compiled binary
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopOnEntry": true,                          // ⬅️ pause at main()
+      "terminal": "external",                       // ⬅️ prevent stdin freeze
+      "sourceLanguages": ["c", "cpp"]
+    }
+    ]
+}

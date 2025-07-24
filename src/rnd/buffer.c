@@ -27,7 +27,7 @@ void std_to_buff(Buffer *bptr) {
 
     while(index < bptr->allocation_length) {
 
-      scanf("%s", &(bptr->stack[index]));
+      scanf("%c", &(bptr->stack[index]));
       bptr->stack_length = index;
 
       if(index == bptr->allocation_length - 1) {
@@ -57,7 +57,7 @@ void std_to_buff(Buffer *bptr) {
       break;
     }
     
-    for(int stack_index = 0; stack_index < index; stack_index++) {
+    for(uint32_t stack_index = 0; stack_index < index; stack_index++) {
 
       bptr->str[bptr->heap_size+stack_index] = bptr->stack[stack_index];
     }
@@ -73,6 +73,7 @@ void std_to_buff(Buffer *bptr) {
   if(bptr->heap_size) {
     bptr->validation_state = true;
   }
+ return;
 }
 
 

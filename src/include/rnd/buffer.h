@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-	#define BUFF_SIZE 256
+	#define BUFF_SIZE 255
 	
 	typedef struct{
 		char stack[BUFF_SIZE];

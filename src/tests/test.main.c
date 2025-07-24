@@ -1,7 +1,9 @@
-#include <tests/random.test.h>
+#include <tests/buffer.test.h>
+#include <stdlib.h>
+#include <rnd/buffer.h>
 
-int main() {
-
-	test_rand_seq(200, 10, 30,0);
+int main(void) {
+	
+	test_buffer(128);
 	return 0;
 }

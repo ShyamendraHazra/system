@@ -1,4 +1,4 @@
-#include <bits/time.h>
+#define _POSIX_C_SOURCE 199309L 
 #include <rnd/random.h>
 #include <stdbool.h>
 #include <time.h>
@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-uint64_t get_random() {
+uint64_t get_random(void) {
 	struct timespec tm;
 	uint32_t multiplier = 1664525;
 	uint32_t incrementer  = 1013904223;
@@ -24,7 +24,6 @@ uint64_t get_random() {
 
 uint64_t random_rng(uint64_t high, uint64_t low) {
 	uint64_t rand = get_random();
-	uint64_t modulus = 4294967296;
 	uint64_t range = high - low + 1;
 
 	rand = (rand % range) + low;
