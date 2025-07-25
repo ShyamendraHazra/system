@@ -3,12 +3,7 @@
 void test_buffer(uint32_t char_len) {
 	Buffer bpt;
 	char string[char_len];
-	char user_message[1000] = {0};
-	uint8_t test_case = 0;
-	uint8_t expected_allocation_count = 0;
-	bool expected_validation_state = true;
-	bool expected_execflowhealth = false;
-	uint16_t expected_buff_size = BUFF_SIZE;
+	// uint8_t test_case = 0;
 	bool expected_filled_status = (char_len / BUFF_SIZE) ? true : false;
 	FILE *fp = NULL;
 
@@ -33,13 +28,13 @@ void test_buffer(uint32_t char_len) {
 
 	fstream_close(stdin);
 	
-	AddCase(test_case, user_message, sizeof(char)*1000 , bpt.heap_size, bpt.heap_size, char_len, "%d", "%d", false);
-	AddCase(test_case, user_message, sizeof(char)*1000 , bpt.allocation_length, bpt.allocation_length, expected_buff_size, "%d", "%d", false);
-	AddCase(test_case, user_message, sizeof(char)*1000 , bpt.allocation_count, bpt.allocation_count, expected_allocation_count, "%d", "%d", false);
-	AddCase(test_case, user_message, sizeof(char)*1000 , bpt.exec_flow_health, bpt.exec_flow_health, expected_execflowhealth, "%s", "%s",true);
-	AddCase(test_case, user_message, sizeof(char)*1000 , bpt.validation_state, bpt.validation_state, expected_validation_state, "%s", "%s", true);
-	AddCase(test_case, user_message, sizeof(char)*1000 , bpt.stack_length, bpt.stack_length, bpt.allocation_length, "%d", "%d", false);
-	AddCase(test_case, user_message, sizeof(char)*1000 , bpt.filled_status, bpt.filled_status, expected_filled_status, "%s", "%s", true);
+	AddTest(bpt.heap_size, char_len, u32);
+	AddTest(bpt.allocation_length, BUFF_SIZE, u16);
+	AddTest(bpt.allocation_count, 0, u8);
+	AddTest(bpt.exec_flow_health, false, b);
+	AddTest(bpt.validation_state, true, b);
+	AddTest(bpt.stack_length+1, (uint16_t)char_len, u16);
+	AddTest(bpt.filled_status, expected_filled_status, b);
 
 	free(bpt.str);
 	bpt.str = NULL;
